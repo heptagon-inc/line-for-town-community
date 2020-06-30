@@ -1,0 +1,17 @@
+Resources:
+  SchedulesTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: ${self:custom.schedulesTableName}
+      AttributeDefinitions:
+        -
+          AttributeName: id
+          AttributeType: N
+      KeySchema:
+        -
+          AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      

@@ -1,0 +1,12 @@
+WebhookAPI:
+  handler: src/webhook_api.handler
+  name: line4tc-${self:custom.groupName}-${self:provider.stage}-WebhookAPI
+  role: WebhookApiRole
+  timeout: 30
+  environment:
+    LINE_CHANNEL_ACCESS_TOKEN: ${self:custom.lineChannelAccessToken}
+    USERS_TABLE_NAME: ${self:custom.usersTableName}
+  events:
+    - http:
+        path: webhook
+        method: post

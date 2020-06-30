@@ -1,0 +1,7 @@
+CreateRichMenu:
+  handler: src/create_richmenu.handler
+  name: line4tc-${self:custom.groupName}-${self:provider.stage}-CreateRichMenu
+  role: CreateRichMenuRole
+  timeout: 30
+  environment:
+    LINE_CHANNEL_ACCESS_TOKEN: ${self:custom.lineChannelAccessToken}

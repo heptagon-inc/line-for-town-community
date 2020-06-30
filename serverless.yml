@@ -1,0 +1,55 @@
+service: line-for-town-community-${self:custom.groupName}
+
+frameworkVersion: ">=1.74.0"
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: ${opt:stage, self:custom.defaultStage}
+  region: ap-northeast-1
+  apiName: line4tc-${self:custom.groupName}-${self:provider.stage}
+
+custom:
+  defaultGroupName: xxxx
+  defaultStage: dev
+  defaultToken: ""
+  groupName: ${opt:group, self:custom.defaultGroupName}
+  lineChannelAccessToken: ${opt:token, self:custom.defaultToken}
+  usersTableName: line4tc-${self:custom.groupName}-${self:provider.stage}-users
+  schedulesTableName: line4tc-${self:custom.groupName}-${self:provider.stage}-schedules
+
+package:
+  exclude:
+    - .venv/**
+    - .envrc
+    - .git/**
+    - .gitignore
+    - .node-version
+    - .python-version
+    - bin/**
+    - node_modules/**
+    - package-lock.json
+    - package.json
+    - .vscode/**
+    - .serverless
+    - .DS_Store
+
+functions:
+  - ${file(functions/webhook_api.yml)}
+  - ${file(functions/reminder.yml)}
+  - ${file(functions/create_richmenu.yml)}
+  - ${file(functions/import_schedule_data.yml)}
+
+resources:
+  # IAM
+  - ${file(resources/iam-role/webhook_api.yml)}
+  - ${file(resources/iam-role/reminder.yml)}
+  - ${file(resources/iam-role/create_richmenu.yml)}
+  - ${file(resources/iam-role/import_schedule_data.yml)}
+  # DynamoDB
+  - ${file(resources/dynamodb/users_table.yml)}
+  - ${file(resources/dynamodb/schedules_table.yml)}
+
+plugins:
+  - serverless-python-requirements
+  - serverless-pseudo-parameters

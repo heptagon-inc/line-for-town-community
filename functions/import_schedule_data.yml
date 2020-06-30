@@ -1,0 +1,7 @@
+ImportScheduleData:
+  handler: src/import_schedule_data.handler
+  name: line4tc-${self:custom.groupName}-${self:provider.stage}-ImportScheduleData
+  role: ImportScheduleDataRole
+  timeout: 30
+  environment:
+    SCHEDULES_TABLE_NAME: ${self:custom.schedulesTableName}

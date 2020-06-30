@@ -1,0 +1,11 @@
+Reminder:
+  handler: src/reminder.handler
+  name: line4tc-${self:custom.groupName}-${self:provider.stage}-Reminder
+  role: ReminderRole
+  timeout: 300
+  environment:
+    LINE_CHANNEL_ACCESS_TOKEN: ${self:custom.lineChannelAccessToken}
+    USERS_TABLE_NAME: ${self:custom.usersTableName}
+    SCHEDULES_TABLE_NAME: ${self:custom.schedulesTableName}
+  events:
+    - schedule: rate(1 minute)
