@@ -46,7 +46,8 @@ serverless frameworkのコマンドを使用してデプロイしてください
 serverless deploy -v \
 --stage prd \
 --group <YOUR_GROUP_NAME> \ 
---token <YOUR_LINE_CHANNEL_ACCESS_TOKEN>
+--token <YOUR_LINE_CHANNEL_ACCESS_TOKEN> \
+--secret <YOUR_LINE_CHANNEL_SECRET>
 ```
 
 ここで設定した`stage`と`group`は、生成されるリソース名の接頭辞に使用されます。

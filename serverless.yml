@@ -12,9 +12,9 @@ provider:
 custom:
   defaultGroupName: xxxx
   defaultStage: dev
-  defaultToken: ""
   groupName: ${opt:group, self:custom.defaultGroupName}
-  lineChannelAccessToken: ${opt:token, self:custom.defaultToken}
+  lineChannelAccessToken: ${opt:token, ""}
+  lineChannelSecret: ${opt:secret, ""}
   usersTableName: line4tc-${self:custom.groupName}-${self:provider.stage}-users
   schedulesTableName: line4tc-${self:custom.groupName}-${self:provider.stage}-schedules
 

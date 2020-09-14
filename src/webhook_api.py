@@ -3,6 +3,10 @@ import sys
 import json
 import urllib
 
+import base64
+import hashlib
+import hmac
+
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
 from linebot.exceptions import LineBotApiError
@@ -16,6 +20,12 @@ def handler(event, context):
     LINEからのwebhookを処理します
     """
 
+    if not is_valid_signature(event['headers']['X-Line-Signature'], event['body']):
+        print("signature is not valid")
+        return response()
+
+    print("signature is valid")
+
     print(json.dumps(event))
     body = json.loads(event['body'])
 
@@ -23,6 +33,10 @@ def handler(event, context):
     for e in body['events']:
         dispatch(e)
 
+    return response()
+
+
+def response():
     return {
         "statusCode": 200,
         "headers": {},
@@ -34,6 +48,15 @@ def handler(event, context):
 # ================================
 # LINE
 # ================================
+
+def is_valid_signature(header_signature, body):
+    channel_secret = os.environ['LINE_CHANNEL_SECRET']
+
+    hash = hmac.new(channel_secret.encode('utf-8'), body.encode('utf-8'), hashlib.sha256).digest()
+    calc_signature = base64.b64encode(hash).decode('utf-8')
+
+    return header_signature == calc_signature
+
 
 def push_message(user_id, text):
     line_bot_api = LineBotApi(os.environ['LINE_CHANNEL_ACCESS_TOKEN'])
