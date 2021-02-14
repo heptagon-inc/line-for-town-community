@@ -20,7 +20,7 @@ def handler(event, context):
     LINEからのwebhookを処理します
     """
 
-    if not is_valid_signature(event['headers']['X-Line-Signature'], event['body']):
+    if not is_valid_signature(event['headers']['x-line-signature'], event['body']):
         print("signature is not valid")
         return response()
 
